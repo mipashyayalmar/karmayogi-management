@@ -1,0 +1,129 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <img style="height:200px; width:200px; border-radius:50%; margin:auto" src="{{ employee.photo.url }}" alt=" ___  profile not available">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+      <div class="personal_information">
+        <div class="row">
+          <h2 class="mx-auto">Personal Information</h2>
+        </div>
+        <hr>
+        <div class="row">
+          <div style="font-size:24px; margin-left: 30px">
+            <pre>Name                                    : {{ employee.name| upper }}</pre>
+            <pre>Date of Birth                           : {{ employee.date_of_birth }}</pre>
+            <pre>Place of Birth                          : {{ employee.place_of_birth |title }}</pre>
+            <pre>Nationality                             : {{ employee.nationality |title  }}</pre>
+            <pre>Religion                                : {{ employee.religion |title }}</pre>
+            <pre>Caste                                   : {{ employee.caste |title }}</pre>
+            <pre>Gender                                  : {{ employee.gender |title }}</pre>
+            <pre>Blood Group                             : {{ employee.blood_group |title }}</pre>
+            <pre>Pan-Card No                             : {{ employee.e_tin |upper}}</pre>
+            <pre>Adhar NO                                : {{ employee.nid }}</pre>
+            <pre>Driving License/Passport                : {{ employee.driving_license_passport }}</pre>
+            <pre>Phone No                                : {{ employee.phone_no }}</pre>
+            <pre>Email                                   : {{ employee.email }}</pre>
+            <pre>Father's Name                           : {{ employee.father_name |upper}}</pre>
+            <pre>Mother's Name                           : {{ employee.mother_name |title}}</pre>
+            <pre>Marital Status                          : {{ employee.marital_status |title}}</pre>
+            <pre>Address                                 : {{ employee.address |title}}</pre>
+            <pre>Education                               : {{ employee.education |upper}}</pre>
+            <pre>Training                                : {{ employee.training }}</pre>
+            <pre>Job                                     : {{ employee.job |title}}</pre>
+            <pre>Exprience                               : {{ employee.experience |title}}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="address_information">
+        <div class="row">
+          <h2 class="mx-auto">Address Information</h2>
+        </div>
+        <hr>
+        <div class="row">
+          <div style="font-size:24px; margin-left: 30px">
+            <pre>District                                : {{ employee.address.district }}</pre>
+            <pre>Upazilla                                : {{ employee.address.upazilla }}</pre>
+            <pre>Union                                   : {{ employee.address.union }}</pre>
+            <pre>Village                                 : {{ employee.address.village }}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="address_information">
+        <div class="row">
+          <h2 class="mx-auto">Education Information</h2>
+        </div>
+        <hr>
+        <div class="row">
+          <div style="font-size:24px; margin-left: 30px">
+            <pre>Name of Exam                             : {{ employee.education.name_of_exam }}</pre>
+            <pre>Institute                                : {{ employee.education.institute }}</pre>
+            <pre>Group                                    : {{ employee.education.group }}</pre>
+            <pre>Grade/GPA                                : {{ employee.education.grade }}</pre>
+            <pre>Board                                    : {{ employee.education.board }}</pre>
+            <pre>Passing Year                             : {{ employee.education.passing_year }}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="emergency_contact_information">
+        <div class="row">
+          <h2 class="mx-auto">Training Information</h2>
+        </div>
+        <hr>
+        <div class="row">
+          <div style="font-size:24px; margin-left: 30px">
+            <pre>Training Name                             : {{ employee.training.training_name }}</pre>
+            <pre>Year                                      : {{ employee.training.year }}</pre>
+            <pre>Duration                                  : {{ employee.training.duration }}</pre>
+            <pre>Place                                     : {{ employee.training.place }}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="emergency_contact_information">
+        <div class="row">
+          <h2 class="mx-auto">Job Information</h2>
+        </div>
+        <hr>
+        <div class="row">
+          <div style="font-size:24px; margin-left: 30px">
+            <pre>Category                                   : {{ employee.job.category }}</pre>
+            <pre>Joining Date                               : {{ employee.job.joning_date }}</pre>
+            <pre>Institute Name                             : {{ employee.job.institute_name }}</pre>
+            <pre>Job Designation                            : {{ employee.job.job_designation }}</pre>
+            <pre>Department                                 : {{ employee.job.department }}</pre>
+            <pre>Scale                                      : {{ employee.job.scale }}</pre>
+            <pre>Grade of Post                              : {{ employee.job.grade_of_post }}</pre>
+            <pre>First Time Scale Due Year                  : {{ employee.job.first_time_scale_due_year }}</pre>
+            <pre>Promotion Due Year                         : {{ employee.job.promotion_due_year }}</pre>
+            <pre>Recreation Leave Due Year                  : {{ employee.job.recreation_leave_due_year }}</pre>
+            <pre>Expected Retirement Year                   : {{ employee.job.expected_retirement_year }}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="previous_academic_information">
+        <div class="row">
+          <h2 class="mx-auto">Exprience Information</h2>
+        </div>
+        <hr>
+        <div class="row">
+          <div style="font-size:24px; margin-left: 30px">
+            <pre>Institute Name                            : {{ employee.experience.institute_name }}</pre>
+            <pre>Designation                               : {{ employee.experience.designation }}</pre>
+            <pre>Trainer                                   : {{ employee.experience.trainer }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+{% endblock %}

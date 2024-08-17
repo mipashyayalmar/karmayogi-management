@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="col-md-9">
+    <h2>Work in Progress</h2>
+
+    <div class="card">
+        <div class="card-header">Subject Details</div>
+        <div class="card-body">
+            <center><h3 class="card-header"> {{ subject.subject_name |upper}}</h3></center>
+            <br>
+            <p><strong>Academic Year:</strong> {{ subject.session_info }}</p>
+            <p><strong>Class Co-Ordinator:</strong> {{ subject.userprofile }} Sir</p>
+            <p><strong>Subject Code:</strong> {{ subject.subject_code }}</p>
+            <p><strong>Marks:</strong> {{ subject.marks }}</p>
+            <p><strong>Pass Marks:</strong> {{ subject.pass_mark }}</p>
+            <p><strong>Uploaded Date:</strong> {{ subject.add_date }}</p>
+            {% if subject.syllabus_picture %}
+            <p><strong>Syllabus Picture:</strong></p>
+            <center>
+                <a href="{{ subject.syllabus_picture.url }}">
+                <div class="img-container">
+                    <img src="{{ subject.syllabus_picture.url }}" alt="Syllabus Picture" class="img-thumbnail">
+                </div>
+            </a>
+            </center>
+            
+            {% else %}
+                <p>No Image Available</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<style>.img-container {
+    width: 75%;
+    height: 75%;
+    overflow: hidden;
+    position: relative;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.img-container:hover img {
+    transform: scale(1.5); /* This will enlarge the image */
+}
+</style>
+{% endblock %}

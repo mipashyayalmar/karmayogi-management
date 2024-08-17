@@ -1,0 +1,128 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+{% comment %} {% if profile.employee_type == 'professor' %} {% endcomment %}
+
+  <div class="card">
+    <div class="card-header">Teacher Registration Form</div>
+    <div class="card-body">
+      <form action="" method="post" enctype="multipart/form-data" id="TeacherRegistrationForm" data-upazilla-url={% url 'load-upazilla' %}>
+
+        <div class="card">
+          <div class="card-header">Personal Information</div>
+          <div class="card-body">
+            {% csrf_token %}
+            {{ form.as_p }}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Address Information</div>
+          <div class="card-body">
+            {% csrf_token %}
+            {{ address_form.as_p }}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Education Information</div>
+          <div class="card-body">
+            {% csrf_token %}
+            {{ education_form.as_p }}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Training Information</div>
+          <div class="card-body">
+            {% csrf_token %}
+            {{ training_form.as_p }}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Job Information</div>
+          <div class="card-body">
+            {% csrf_token %}
+            {{ job_form.as_p }}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Experience Information</div>
+          <div class="card-body">
+            {% csrf_token %}
+            {{ experience_form.as_p }}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <script>
+        $("#id_district").change(function () {
+          var url = $("#TeacherRegistrationForm").attr("data-upazilla-url");
+          var districtId = $(this).val();
+
+          $.ajax({
+            url: url,
+            data: {
+              'district': districtId
+            },
+            success: function (data) {
+              $("#id_upazilla").html(data);
+            }
+          });
+
+        });
+        $("#id_upazilla").change(function () {
+          var url = $("#TeacherRegistrationForm").attr("data-upazilla-url");
+          var upazillaId = $(this).val();
+
+          $.ajax({
+            url: url,
+            data: {
+              'upazilla': upazillaId
+            },
+            success: function (data) {
+              $("#id_union").html(data);
+            }
+          });
+
+        });
+      </script>
+    </div>
+  </div>
+  {% comment %} {%else%} {% endcomment %}
+  
+  {% comment %} <div class="container mt-5">
+    <h2 class="text-center animated-text">
+      Sorry, Sir, you don't have permission to update your profile right now. If you need to update, please notify the admin or Principal Sir.
+    </h2>
+  </div> {% endcomment %}
+  <center>
+  <div class="nav-item" >
+    <a class="nav-link" href="/"><i class="icon-speedometer"></i>  HOME</a>
+</div>
+<br>
+</center>
+  <style>
+    
+  @font-face {
+    font-family: 'Sitka Display';
+    src: url('path/to/your/fonts/SitkaDisplay-Semibold.ttf') format('truetype');
+    font-weight: 600;
+  }
+  body {
+    font-family: 'Sitka Display', Arial, sans-serif;
+  }
+  .animated-text {
+    animation: fadeIn 2s;
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  </style>
+  {% comment %} {%endif%} {% endcomment %}
+{% endblock %}

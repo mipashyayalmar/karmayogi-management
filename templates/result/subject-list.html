@@ -1,0 +1,88 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header"><i class="fa fa-align-justify"></i>Select Class</div>
+    <div class="card-body ">
+      <form action="" method="get">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-success" type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+
+  {% if subjects %}
+  <div class="class-responsive">
+    <div class="card">
+      <div class="card-header"><i class="fa fa-align-justify"></i>Class List</div>
+      <div class="card-body table table-responsive-lg">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Subject Name</th>
+                <th>Academic Year</th>
+                <th>Class Co-Ordinator</th>
+                <th>Subject Code</th>
+                <th>Marks</th>
+                <th>Pass Marks</th>
+                <th>Detail</th>
+                <th>Syllabus </th>
+                <th>Download </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for sub in subjects %}
+                <tr>
+                  <td>{{ sub.id }}</td>
+                  <td>{{ sub.subject_name | upper}}</td>
+                  <td>{{ sub.session_info }}</td>
+                  <td>{{ sub.userprofile | title}} Sir</td>
+                  <td>{{ sub.subject_code }}</td>
+                  <td>{{ sub.marks }}</td>
+                  <td>{{ sub.pass_mark }}</td>
+                  <td>
+                    <a class="btn btn-success" title="View Details" href="{% url 'subject-detail' sub.id %}">
+                      <i class="fa fa-search-plus"></i>
+                    </a>
+                  </td>
+                  <td>
+                    {% if sub.syllabus_picture %}
+                      <a class="" title="View Subject List" href="{{ sub.syllabus_picture.url }}">
+                        <i class="fa fa-eye"></i>
+                      </a>
+                      <a href="{{ sub.syllabus_picture.url }}">
+                        <img src="{{ sub.syllabus_picture.url }}" alt="pic" class="img-thumbnail" style="width: 50px; height: 50px; border-radius: 25px;">
+                      </a>
+                    {% else %}
+                      No Image
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if sub.syllabus_picture %}
+                      <a class="" title="Download Syllabus" href="{{ sub.syllabus_picture.url }}" download>
+                        <img src="{{ sub.syllabus_picture.url }}" alt="pic" class="img-thumbnail" style="width: 50px; height: 50px; border-radius: 25px;">
+                        <i class="fa fa-download fa-2x"></i>
+                      </a>
+                    {% else %}
+                      No Image
+                    {% endif %}
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="10">No data to show. Please add subjects.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+    <p>No subjects found. Please select a class to view the subjects.</p>
+  {% endif %}
+{% endblock %}
