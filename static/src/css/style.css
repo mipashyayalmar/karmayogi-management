@@ -1256,7 +1256,7 @@ pre {
   .table tbody + tbody {
     border-top: 2px solid #c2cfd6; }
   .table .table {
-    background-color: #e4e5e6; }
+    background-color: transparent; }
 
 .table-sm th,
 .table-sm td {
