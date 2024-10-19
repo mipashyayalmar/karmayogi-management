@@ -51,7 +51,7 @@
                                       <th>Status</th>
                                       <th>Name</th>
                                       <th>Gender</th>
-                                      <th>Nationality</th>
+                                      <th>Department</th>
                                       <th>Detail</th>
                                       <th>Edit</th>
                                       <th>Delete</th>
@@ -64,7 +64,7 @@
                                         <td>{{ teacher.name }}</td>
                                         <td>{{ teacher.gender }}</td>
                                         <td>
-                                            <span class="badge badge-warning">{{ teacher.nationality }}</span>
+                                            <span class="badge badge-warning">{{ teacher.job.department}}</span>
                                         </td>
                                         <td>
                                             <a class="btn btn-success" href="{% url 'teacher-profile' teacher.id %}">

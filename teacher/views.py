@@ -71,16 +71,23 @@ def teacher_registration(request):
 
 
 
+
 @login_required(login_url='login')
 def teacher_list(request):
-    user_profile = UserProfile.objects.get(user=request.user)
-    if user_profile.employee_type == 'professor':
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+
+    # Check if the user is a teacher or professor
+    if user_profile.employee_type in ['teacher', 'professor']:
+        # Get all teachers' personal info
         teacher = PersonalInfo.objects.all()
-        context = {'teacher': teacher, 'profile': user_profile}
+        context = {
+            'teacher': teacher,
+            'profile': user_profile
+        }
         return render(request, 'teacher/teacher-list.html', context)
     else:
-        return redirect('some_other_page_or_show_error_message')
-
+        # Return a forbidden response if the user is not a teacher or professor
+        return HttpResponseForbidden("You do not have permission to view this page.")
 
 @login_required(login_url='login')
 def teacher_profile(request, teacher_id=None):
