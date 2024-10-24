@@ -15,7 +15,7 @@ class SubjectRegistrationForm(forms.ModelForm):
             'subject_code': forms.NumberInput(attrs={'class': 'form-control'}),
             'marks': forms.NumberInput(attrs={'class': 'form-control'}),
             'pass_mark': forms.NumberInput(attrs={'class': 'form-control'}),
-            'syllabus_picture': forms.FileInput(attrs={'class': 'form-control'})  # New widget for syllabus picture
+            'syllabus_picture': forms.FileInput(attrs={'class': 'form-control'})  
         }
 
 class ClassSelectSubjectListForm(forms.Form):
