@@ -8,7 +8,7 @@ from django.contrib import messages
 import logging
 from django.http import HttpResponseForbidden
 from employee.models import PersonalInfo as EmployeePersonalInfo
-from teacher.models import PersonalInfo as TeacherPersonalInfo  # Ensure to import TeacherPersonalInfo
+from teacher.models import PersonalInfo as TeacherPersonalInfo
 
 @login_required(login_url='login')
 def load_upazilla(request):
@@ -24,8 +24,6 @@ def load_upazilla(request):
         'profile': user_profile
     }
     return render(request, 'others/upazilla_dropdown_list_options.html', context)
-
-
 
 @login_required(login_url='login')
 def employee_registration(request):
@@ -76,23 +74,15 @@ def employee_registration(request):
     else:
         return redirect('some_other_page_or_show_error_message')
 
-
 @login_required(login_url='login')
 def employee_list(request):
-    # Get the logged-in user's profile
     user_profile = get_object_or_404(UserProfile, user=request.user)
-
-    # Check if the user is a professor or a teacher
     if user_profile.employee_type in ['professor', 'teacher']:
-        # Get the teacher's personal info if the user is a teacher
         if user_profile.employee_type == 'teacher':
             teacher_info = get_object_or_404(TeacherPersonalInfo, address__userprofile=user_profile)
             teacher_department = teacher_info.job.department
-            
-            # Filter employees based on the teacher's department
             employees = EmployeePersonalInfo.objects.filter(job__department=teacher_department)
         else:
-            # If the user is a professor, show all employees (or you could also implement department filtering)
             employees = EmployeePersonalInfo.objects.all()
 
         context = {
@@ -100,10 +90,8 @@ def employee_list(request):
             'profile': user_profile,
         }
         return render(request, 'employee/employee-list.html', context)
-    
-    # If the user is not a professor or teacher, redirect
-    return redirect('some_other_page_or_show_error_message')
 
+    return redirect('some_other_page_or_show_error_message')
 
 @login_required(login_url='login')
 def employee_profile(request, employee_id):
@@ -117,7 +105,6 @@ def employee_profile(request, employee_id):
         return render(request, 'employee/employee-profile.html', context)
     else:
         return redirect('some_other_page_or_show_error_message')
-
 
 logger = logging.getLogger(__name__)
 
@@ -137,7 +124,6 @@ def employee_delete(request, employee_id):
     else:
         messages.error(request, "You do not have permission to delete this employee.")
         return redirect('some_other_page_or_show_error_message')
-
 
 @login_required(login_url='login')
 def employee_edit(request, employee_id):
