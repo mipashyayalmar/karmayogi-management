@@ -6,10 +6,7 @@ from student.models import AcademicInfo
 from teacher.models import PersonalInfo as TeacherPersonalInfo
 from employee.models import PersonalInfo as EmployeePersonalInfo
 from academic.models import ClassRegistration
-<<<<<<< HEAD
 from result.models import SubjectRegistration  # Import the SubjectRegistration model
-=======
-from result.models import SubjectRegistration  # Import your Subject model
 
 @login_required(login_url='login')
 def teacher_profile(request, teacher_id=None):
@@ -44,7 +41,6 @@ def teacher_profile(request, teacher_id=None):
             return HttpResponseForbidden("You do not have permission to view this profile.")
     else:
         return HttpResponseForbidden("You do not have permission to view this page.")
->>>>>>> 29f2085b916bc7ee9553cfc80f3870a0d2da48b6
 
 @login_required(login_url='login')
 def professor_profile(request):
@@ -68,12 +64,7 @@ def professor_profile(request):
         'employee': total_employee,
         'total_class': total_class,
         'profile': user_profile,
-<<<<<<< HEAD
         'all_subjects': all_subjects,  # Pass subjects to the template
-=======
-        'profiles': professor_profiles,
-        'total_subjects': total_subjects,  # Add total subjects to context
->>>>>>> 29f2085b916bc7ee9553cfc80f3870a0d2da48b6
     }
 
     return render(request, 'professor/home.html', context)
