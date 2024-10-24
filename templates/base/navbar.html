@@ -41,12 +41,12 @@
                 {% if profile.employee_type == 'professor' %}
                 <a class="dropdown-item" href="{% url 'profile' %}"><i class="fa fa-user"></i> Profile</a>
                 <a class="dropdown-item" href="{% url 'update-profile' %}"><i class="fa fa-wrench"></i> Settings</a>
-            {% else %}
-                {% if teacher %}
+                {% elif teacher and teacher.id %}
                     <a class="dropdown-item" href="{% url 'teacher-profile' teacher.id %}"><i class="fa fa-user"></i> Profile</a>
-                    <a class="dropdown-item" href="{% url 'teacher-edit' teacher.id %}"><i class="fa fa-wrench"></i> Settings</a> 
+                {% else %}
+                    <p>profile unavailable.</p>
                 {% endif %}
-            {% endif %}
+                
                 <a class="dropdown-item" href="#"><i class="fa fa-usd"></i> Payments<span class="badge badge-secondary">42</span></a>
                 <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-lock"></i> Logout</a>
             </div>

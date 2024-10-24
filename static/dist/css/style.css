@@ -133,6 +133,11 @@ hr {
   box-sizing: content-box;
   height: 0;
   overflow: visible; }
+  @media (max-width: 530px) {
+    hr { 
+      width: 300%;
+  }
+}
 
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
@@ -1255,7 +1260,7 @@ pre {
   .table tbody + tbody {
     border-top: 2px solid #c2cfd6; }
   .table .table {
-    background-color: #e4e5e6; }
+    background-color: transparent; }
 
 .table-sm th,
 .table-sm td {
@@ -3293,7 +3298,9 @@ tbody.collapse.show {
 
 .badge-warning {
   color: #111;
-  background-color: #ffc107; }
+  background-color: #ffc107;
+  padding: 8px 19px;
+ }
   .badge-warning[href]:focus, .badge-warning[href]:hover {
     color: #111;
     text-decoration: none;
@@ -7625,17 +7632,27 @@ base-chart.chart {
   right: auto;
   left: 0; }
 
-.app-footer {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -ms-flex-align: center;
-      align-items: center;
-  padding: 0 1rem;
-  color: #151b1e;
-  background: #f0f3f5;
-  border-top: 1px solid #c2cfd6; }
+  .app-footer {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0 1rem; /* Default padding */
+    color: #151b1e;
+    background: #f0f3f5;
+    border-top: 1px solid #c2cfd6;
+  }
+  
+  /* Media query to remove padding when screen is 530px or smaller */
+  @media (max-width: 530px) {
+    .app-footer {
+      padding: 0; /* Remove padding only for screens 530px or less */
+    }
+  }
+  
+
 
 .row.row-equal {
   padding-right: 7.5px;

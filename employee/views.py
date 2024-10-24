@@ -3,6 +3,12 @@ from django.contrib.auth.decorators import login_required
 from . import forms
 from .models import District, Upazilla, Union, PersonalInfo
 from account.models import UserProfile
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+import logging
+from django.http import HttpResponseForbidden
+from employee.models import PersonalInfo as EmployeePersonalInfo
+from teacher.models import PersonalInfo as TeacherPersonalInfo  # Ensure to import TeacherPersonalInfo
 
 @login_required(login_url='login')
 def load_upazilla(request):
@@ -71,23 +77,38 @@ def employee_registration(request):
         return redirect('some_other_page_or_show_error_message')
 
 
-        
 @login_required(login_url='login')
 def employee_list(request):
-    user_profile = UserProfile.objects.get(user=request.user)
-    if user_profile.employee_type == 'professor':
-        employee = PersonalInfo.objects.all()
-        context = {'employee': employee, 'profile': user_profile}
-        return render(request, 'employee/employee-list.html', context)
-    else:
-        return redirect('some_other_page_or_show_error_message')
+    # Get the logged-in user's profile
+    user_profile = get_object_or_404(UserProfile, user=request.user)
 
+    # Check if the user is a professor or a teacher
+    if user_profile.employee_type in ['professor', 'teacher']:
+        # Get the teacher's personal info if the user is a teacher
+        if user_profile.employee_type == 'teacher':
+            teacher_info = get_object_or_404(TeacherPersonalInfo, address__userprofile=user_profile)
+            teacher_department = teacher_info.job.department
+            
+            # Filter employees based on the teacher's department
+            employees = EmployeePersonalInfo.objects.filter(job__department=teacher_department)
+        else:
+            # If the user is a professor, show all employees (or you could also implement department filtering)
+            employees = EmployeePersonalInfo.objects.all()
+
+        context = {
+            'employees': employees,
+            'profile': user_profile,
+        }
+        return render(request, 'employee/employee-list.html', context)
+    
+    # If the user is not a professor or teacher, redirect
+    return redirect('some_other_page_or_show_error_message')
 
 
 @login_required(login_url='login')
 def employee_profile(request, employee_id):
     user_profile = UserProfile.objects.get(user=request.user)
-    if user_profile.employee_type == 'professor':
+    if user_profile.employee_type in ['professor', 'teacher']:
         employee = PersonalInfo.objects.get(id=employee_id)
         context = {
             'employee': employee,
@@ -96,19 +117,14 @@ def employee_profile(request, employee_id):
         return render(request, 'employee/employee-profile.html', context)
     else:
         return redirect('some_other_page_or_show_error_message')
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .models import PersonalInfo
-from account.models import UserProfile
-import logging
+
 
 logger = logging.getLogger(__name__)
 
 @login_required(login_url='login')
 def employee_delete(request, employee_id):
     user_profile = UserProfile.objects.get(user=request.user)
-    if user_profile.employee_type == 'professor':
+    if user_profile.employee_type in ['professor', 'teacher']:
         try:
             employee = get_object_or_404(PersonalInfo, id=employee_id)
             employee.delete()
@@ -126,7 +142,7 @@ def employee_delete(request, employee_id):
 @login_required(login_url='login')
 def employee_edit(request, employee_id):
     user_profile = UserProfile.objects.get(user=request.user)
-    if user_profile.employee_type == 'professor':
+    if user_profile.employee_type in ['professor', 'teacher']:
         employee = PersonalInfo.objects.get(id=employee_id)
         form = forms.PersonalInfoForm(instance=employee)
         address_forms = forms.AddressInfoForm(instance=employee.address)

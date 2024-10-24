@@ -1255,8 +1255,8 @@ pre {
     border-bottom: 2px solid #c2cfd6; }
   .table tbody + tbody {
     border-top: 2px solid #c2cfd6; }
-  .table .table {
-    background-color: transparent; }
+  /* .table .table {
+    background-color: transparent; } */
 
 .table-sm th,
 .table-sm td {

@@ -5,8 +5,10 @@ from academic.models import ClassInfo, ClassRegistration,Session,GuideTeacher, D
 from administration.models import Designation
 from account.models import UserProfile
 from address.models import District, Upazilla, Union
+from account.models import UserProfile
 
 class PersonalInfo(models.Model):
+    userprofile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True, related_name='student_personal_info') 
     name = models.CharField(max_length=100)
     photo = models.ImageField(upload_to='student-photos/')
     blood_group_choice = (
@@ -57,6 +59,7 @@ class StudentAddressInfo(models.Model):
 
     def __str__(self):
         return self.village
+
 
 class GuardianInfo(models.Model):
     father_name = models.CharField(max_length=100)

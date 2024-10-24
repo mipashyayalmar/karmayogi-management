@@ -3,7 +3,7 @@
 {% block title %} KIT Management System {% endblock %}
 {% block content %}
 <marquee behavior="" direction="">The KIT management system functions through the Teacher's leadership</marquee>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     .bg-class {
     background-color: darkblue;
@@ -64,36 +64,28 @@
                             <i class="icon-settings"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{% url 'teacher-list' %}">Teacher list</a>
+                            {% if teacher_count > 0 %}
+                            <a class="dropdown-item" href="{% url 'teacher-list' %}">
+                                <i class="fa fa-users"></i>{{ teacher_count }} Teachers
+                            </a>
+                            {% else %}
+                            <span class="dropdown-item">No teachers in your department</span>
+                            {% endif %}
                             <a class="dropdown-item" href="#">Another action</a>
                             <a class="dropdown-item" href="#">Something else here</a>
                         </div>
                     </div>
-                    <div class="text-value"><a href="{% url 'teacher-profile' teacher.id %}" class="btn btn-primary">{{ teacher }}</a></div>
-                    <div>Total Teacher</div>
+                    <div class="text-value">
+                        <a href="{% url 'teacher-profile' teacher.id %}" class="btn btn-primary">{{ teacher }}</a>
+                    </div>
+                    <div>Total Teachers</div>
                 </div>
                 <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-                    <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-                        <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                            <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                            <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
-                        </div>
-                    </div>
-                    <canvas class="chart chartjs-render-monitor" id="card-chart4" height="70" width="319" style="display: block; width: 319px; height: 70px;"></canvas>
-                    <div id="card-chart4-tooltip" class="chartjs-tooltip top bottom" style="opacity: 0; left: 265px; top: 134.2px;">
-                        <div class="tooltip-header">
-                            <div class="tooltip-header-item">January</div>
-                        </div>
-                        <div class="tooltip-body">
-                            <div class="tooltip-body-item"><span class="tooltip-body-item-color" style="background-color: rgba(230, 230, 230, 0.2);"></span><span class="tooltip-body-item-label">My First dataset</span><span class="tooltip-body-item-value">34</span></div>
-                        </div>
-                    </div>
+                    <canvas class="chart chartjs-render-monitor" id="card-chart4" height="70" width="319"></canvas>
                 </div>
             </div>
         </div>
-
+        
         <div class="col-sm-6 col-lg-3">
             <div class="card text-white bg-warning">
                 <div class="card-body pb-0">
@@ -102,65 +94,63 @@
                             <i class="icon-settings"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{% url 'employee-list' %}">Total Employee</a>
+                            <a class="dropdown-item" href="{% url 'employee-list' %}">{{ employee }} Total Employees</a>
                             <a class="dropdown-item" href="#">Another action</a>
                             <a class="dropdown-item" href="#">Something else here</a>
                         </div>
                     </div>
-                    <div class="text-value"><a href="{% url 'employee-list' %}" class="btn btn-primary">{{ employee }}</a></div>
-                    <div>Total Employee</div>
+                    <div class="text-value">
+                        <a href="{% url 'employee-list' %}" class="btn btn-primary">{{ employee }}</a>
+                    </div>
+                    <div>Total Employees</div>
                 </div>
                 <div class="chart-wrapper mt-3" style="height:70px;">
-                    <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-                        <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                            <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                            <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
-                        </div>
-                    </div>
-                    <canvas class="chart chartjs-render-monitor" id="card-chart3" height="70" width="351" style="display: block; width: 351px; height: 70px;"></canvas>
+                    <canvas class="chart chartjs-render-monitor" id="card-chart3" height="70" width="351"></canvas>
                 </div>
             </div>
         </div>
+        
 
         <div class="col-sm-6 col-lg-3">
             <div class="card text-white bg-class">
                 <div class="card-body pb-0">
                     <div class="btn-group float-right">
-                        <button class="btn btn-transparent dropdown-toggle p-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-transparent dropdown-toggle p-0" type="button" 
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="icon-settings"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{% url 'class-list' %}">Total Classs</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            {% if subject_count > 0 %}
+                                <a class="dropdown-item" href="#">
+                                    <strong>Total Subjects: {{ subject_count }}</strong>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right"></div> <!-- Optional divider -->
+        
+                                {% for subject in total_subjects %}
+                                    <a class="dropdown-item" href="{% url 'subject-detail' subject.id %}">
+                                        <i class="fa fa-angle-double-right" style="font-size:18px;"></i>
+                                        {{ subject.subject_name }} (Code: {{ subject.subject_code }})
+                                    </a>
+                                {% endfor %}
+                            {% else %}
+                                <a class="dropdown-item" href="#">No subjects allocated</a>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="text-value"><a href="{% url 'class-list' %}" class="btn btn-primary">{{ total_class }}</a></div>
-                    <div>Total Class</div>
+        
+                    <div class="text-value">
+                        <a href="{% url 'class-list' %}" class="btn btn-primary">{{ total_class }}</a>
+                    </div>
+                    <div>Total Classes</div>
                 </div>
+        
                 <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
-                    <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-                        <div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                            <div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-                            <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
-                        </div>
-                    </div>
-                    <canvas class="chart chartjs-render-monitor" id="card-chart4" height="70" width="319" style="display: block; width: 319px; height: 70px;"></canvas>
-                    <div id="card-chart4-tooltip" class="chartjs-tooltip top bottom" style="opacity: 0; left: 265px; top: 134.2px;">
-                        <div class="tooltip-header">
-                            <div class="tooltip-header-item">January</div>
-                        </div>
-                        <div class="tooltip-body">
-                            <div class="tooltip-body-item"><span class="tooltip-body-item-color" style="background-color: rgba(230, 230, 230, 0.2);"></span><span class="tooltip-body-item-label">My First dataset</span><span class="tooltip-body-item-value">34</span></div>
-                        </div>
-                    </div>
+                    <!-- Additional chart/tooltip code can be added here -->
                 </div>
             </div>
         </div>
+        
+        
 
     </div>
 </div>

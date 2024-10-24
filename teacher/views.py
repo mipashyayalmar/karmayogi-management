@@ -8,6 +8,8 @@ from django.contrib import messages
 import logging
 from django.http import HttpResponseForbidden
 
+from teacher.models import PersonalInfo as TeacherPersonalInfo
+
 @login_required(login_url='login')
 def load_upazilla(request):
     user_profile = UserProfile.objects.get(user=request.user)
@@ -70,16 +72,40 @@ def teacher_registration(request):
         return redirect('some_other_page_or_show_error_message')
 
 
-
 @login_required(login_url='login')
 def teacher_list(request):
-    user_profile = UserProfile.objects.get(user=request.user)
-    if user_profile.employee_type == 'professor':
-        teacher = PersonalInfo.objects.all()
-        context = {'teacher': teacher, 'profile': user_profile}
+    # Get the logged-in user's profile
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+
+    if user_profile.employee_type in ['teacher', 'professor']:
+        if user_profile.employee_type == 'professor':
+            # Professors can view all teachers
+            teachers = TeacherPersonalInfo.objects.filter(is_delete=False)
+            teacher_count = teachers.count()
+        else:
+            # Teachers can only view those in their department
+            user_teacher_info = TeacherPersonalInfo.objects.filter(
+                address__userprofile=user_profile
+            ).first()
+
+            if not user_teacher_info:
+                return HttpResponseForbidden("Teacher information not found for this user.")
+
+            teacher_department = user_teacher_info.job.department
+
+            teachers = TeacherPersonalInfo.objects.filter(
+                job__department=teacher_department, is_delete=False
+            )
+            teacher_count = teachers.count()
+
+        context = {
+            'teachers': teachers,
+            'teacher_count': teacher_count,
+            'profile': user_profile,
+        }
         return render(request, 'teacher/teacher-list.html', context)
-    else:
-        return redirect('some_other_page_or_show_error_message')
+
+    return HttpResponseForbidden("You do not have permission to view this page.")
 
 
 @login_required(login_url='login')
