@@ -121,6 +121,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             {% if subject_count > 0 %}
+<<<<<<< HEAD
                                 <a class="dropdown-item" href="#">
                                     <strong>Total Subjects: {{ subject_count }}</strong>
                                 </a>
@@ -142,6 +143,30 @@
                         <a href="{% url 'class-list' %}" class="btn btn-primary">{{ total_class }}</a>
                     </div>
                     <div>Total Classes</div>
+=======
+                                <a class="dropdown-item" href="#">Total Subjects: {{ subject_count }}</a>
+                                <div class="dropdown-menu dropdown-menu-right"></div> <!-- Optional divider for clarity -->
+                    
+                                {% for subject in total_subjects %}
+                                    {% if subject.id %} <!-- Check if subject has a valid ID -->
+                                        <a class="dropdown-item" href="{% url 'subject-detail' subject.id %}">
+                                            <i class="fa fa-angle-double-right" style="font-size:24px"></i>
+                                            {{ subject.subject_name }} (Code: {{ subject.subject_code }})
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% else %}
+                                <a class="dropdown-item" href="#">Not any sub alocate</a>
+
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="text-value"><a href="{% url 'class-list' %}" class="btn btn-primary">{{ total_class }}</a></div>
+                    <div>Total Class</div>
+>>>>>>> 29f2085b916bc7ee9553cfc80f3870a0d2da48b6
                 </div>
         
                 <div class="chart-wrapper mt-3 mx-3" style="height:70px;">

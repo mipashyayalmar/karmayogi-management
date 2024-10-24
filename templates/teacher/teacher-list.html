@@ -12,6 +12,7 @@
     </div>
     {% endif %}
 
+<<<<<<< HEAD
     <div class="animated fadeIn">
         <div class="card">
             <div class="card-header">
@@ -61,12 +62,65 @@
                                 <tbody>
                                     {% for teacher in teachers %}
                                     <tr>
+=======
+  <div class="animated fadeIn">
+      <div class="card">
+          <div class="card-header">
+              <i class="fa fa-edit"></i> Teacher List
+          </div>
+          {% if teacher %}
+          <div class="card-body">
+            
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                  <div class="row">
+                      <div class="col-sm-12 col-md-6">
+                          <div class="dataTables_length" id="DataTables_Table_0_length">
+                              <label>Show
+                                  <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm">
+                                      <option value="10">10</option>
+                                      <option value="25">25</option>
+                                      <option value="50">50</option>
+                                      <option value="100">100</option>
+                                  </select> entries</label>
+                          </div>
+                      </div>
+                      <div class="col-sm-12 col-md-6">
+                          <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                              <label>Search:
+                                  <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_0">
+                              </label>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <table class="table table-striped table-bordered datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="border-collapse: collapse !important">
+                            <table class="table table-responsive-sm">
+                              <thead>
+                                  <tr role="row">
+                                      <th>Id</th>
+                                      <th>Status</th>
+                                      <th>Name</th>
+                                      <th>Gender</th>
+                                      <th>Department</th>
+                                      <th>Detail</th>
+                                      <th>Edit</th>
+                                      <th>Delete</th>
+                              </thead>
+                              <tbody>
+                                  {% for teacher in teacher %}
+                                    <tr role="row" class="odd">
+>>>>>>> 29f2085b916bc7ee9553cfc80f3870a0d2da48b6
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ teacher.administration }}</td>
                                         <td>{{ teacher.name }}</td>
                                         <td>{{ teacher.gender }}</td>
                                         <td>
+<<<<<<< HEAD
                                             <span class="badge badge-warning">{{ teacher.job.department }}</span>
+=======
+                                            <span class="badge badge-warning">{{ teacher.job.department}}</span>
+>>>>>>> 29f2085b916bc7ee9553cfc80f3870a0d2da48b6
                                         </td>
                                         <td>
                                             <a class="btn btn-success" href="{% url 'teacher-profile' teacher.id %}">

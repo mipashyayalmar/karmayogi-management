@@ -132,10 +132,18 @@
                             <i class="icon-settings"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
+<<<<<<< HEAD
                             {% if all_subjects %}
                                 <a class="dropdown-item" href="#">Total Subjects: {{ all_subjects.count }}</a>
                                 <div class="dropdown-menu dropdown-menu-right"></div>
                                 {% for subject in all_subjects %}
+=======
+                            {% if total_subjects %}
+                                <a class="dropdown-item" href="#">Total Subjects: {{ total_subjects.count }}</a>
+                                <div class="dropdown-menu dropdown-menu-right"></div>
+                        
+                                {% for subject in total_subjects %}
+>>>>>>> 29f2085b916bc7ee9553cfc80f3870a0d2da48b6
                                     <a class="dropdown-item" href="{% url 'subject-detail' subject.id %}">
                                         <i class="fa fa-angle-double-right" style="font-size:24px"></i>
                                         {{ subject.subject_name }} (Code: {{ subject.subject_code }})
@@ -145,6 +153,7 @@
                                 <a class="dropdown-item" href="#">No subjects available</a>
                             {% endif %}
                         </div>
+                        
                     </div>
                     <div class="text-value">
                         <a href="{% url 'class-list' %}" class="btn btn-primary">{{ total_class }}</a>
