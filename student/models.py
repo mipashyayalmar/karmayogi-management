@@ -184,11 +184,12 @@ class EnrolledStudent(models.Model):
     class_name = models.ForeignKey(ClassRegistration, on_delete=models.CASCADE)
     student = models.OneToOneField(AcademicInfo, on_delete=models.CASCADE)
     roll = models.IntegerField()
+    session_year = models.ForeignKey(Session, default=1, on_delete=models.CASCADE)
+
     date = models.DateField(auto_now_add=True)
 
     class Meta:
-        unique_together = ['class_name', 'roll']
+        unique_together = ['class_name', 'session_year','roll']
     
     def __str__(self):
-        return str(self.roll)
-
+        return f"{self.student} enrolled in {self.class_name} for {self.session_year}"

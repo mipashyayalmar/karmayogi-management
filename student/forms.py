@@ -1,7 +1,7 @@
-from django import forms
-
 from .models import *
-from academic.models import ClassInfo
+from academic.models import ClassInfo,Session
+from django import forms
+from .models import ClassInfo
 
 class AcademicInfoForm(forms.ModelForm):
     class Meta:
@@ -167,13 +167,10 @@ class StudentSearchForm(forms.Form):
     )
   
 
-from django import forms
-from .models import ClassInfo
-
 class EnrolledStudentForm(forms.Form):
     class_name = forms.ModelChoiceField(queryset=ClassInfo.objects.all())
     status_select = (
-        ('', 'Any Status'),  # Added an empty option for any status
+        ('', 'Any Status'),  
         ('not enroll', 'Not Enroll'),
         ('enrolled', 'Enrolled'),
         ('regular', 'Regular'),
@@ -198,8 +195,12 @@ class EnrolledStudentForm(forms.Form):
 class StudentEnrollForm(forms.Form):
     class_name = forms.ModelChoiceField(queryset=ClassRegistration.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
     roll_no = forms.IntegerField(widget=forms.NumberInput(attrs={'placeholder': 'Enter Roll', 'class': 'form-control'}))
+    session_year = forms.ModelChoiceField(
+        queryset= Session.objects.all(),
+        widget=forms.Select(attrs={'class':'form-control'})
+    )
 
 class SearchEnrolledStudentForm(forms.Form):
-    reg_class = forms.ModelChoiceField(queryset=ClassRegistration.objects.all())
+    reg_class = forms.ModelChoiceField(queryset=ClassRegistration.objects.all(), required=False)
+    session_year = forms.ModelChoiceField(queryset=Session.objects.all(), required=False)
     roll_no = forms.IntegerField(required=False, widget=forms.NumberInput(attrs={'placeholder': 'Enter Roll'}))
-   

@@ -338,30 +338,33 @@ def enrolled_student(request):
     try:
         user_profile = UserProfile.objects.get(user=request.user)
     except UserProfile.DoesNotExist:
-        user_profile = UserProfile.objects.create(user=request.user, employee_type=['professor','teacher'])
+        user_profile = UserProfile.objects.create(user=request.user, employee_type=['professor', 'teacher'])
 
-    # if user_profile.employee_type != 'professor':
-    #     return redirect('login')
-
-    forms = EnrolledStudentForm()
+    forms = EnrolledStudentForm(request.GET)  # Populate form with GET data
     cls = request.GET.get('class_name', None)
-    student = AcademicInfo.objects.filter(class_info=cls, status='not enroll')
+    status = request.GET.get('status', None)
+
+    # Build the queryset
+    student_query = AcademicInfo.objects.all()
+
+    if cls:
+        student_query = student_query.filter(class_info=cls)
+
+    if status and status != '':
+        student_query = student_query.filter(status=status)
+
     context = {
-        'profile' : user_profile,
+        'profile': user_profile,
         'forms': forms,
-        'student': student
+        'student': student_query
     }
     return render(request, 'student/enrolled.html', context)
-
 def student_enrolled(request, reg):
     try:
         user_profile = UserProfile.objects.get(user=request.user)
     except UserProfile.DoesNotExist:
         user_profile = UserProfile.objects.create(user=request.user, employee_type=['professor','teacher'])
-
-    # if user_profile.employee_type != 'professor':
-    #     return redirect('login')
-
+        
     student = AcademicInfo.objects.get(registration_no=reg)
     forms = StudentEnrollForm()
     if request.method == 'POST':
@@ -380,29 +383,35 @@ def student_enrolled(request, reg):
     }
     return render(request, 'student/student-enrolled.html', context)
 
+
+
 def enrolled_student_list(request):
     try:
         user_profile = UserProfile.objects.get(user=request.user)
     except UserProfile.DoesNotExist:
-        user_profile = UserProfile.objects.create(user=request.user, employee_type=['professor','teacher'])
-
-    # if user_profile.employee_type != 'professor':
-    #     return redirect('login')
+        user_profile = UserProfile.objects.create(user=request.user, employee_type=['professor', 'teacher'])
 
     student = EnrolledStudent.objects.all()
-    forms = SearchEnrolledStudentForm()
+    forms = SearchEnrolledStudentForm(request.GET or None)
+
     class_name = request.GET.get('reg_class', None)
+    session_year = request.GET.get('session_year', None)
     roll = request.GET.get('roll_no', None)
-    if class_name:
-        student = EnrolledStudent.objects.filter(class_name=class_name)
-        context = {
-            'profile' : user_profile,
-            'forms': forms,
-            'student': student
-        }
-        return render(request, 'student/enrolled-student-list.html', context)
+
+    # Check if roll number is provided without class_name or session_year
+    if roll and not (class_name and session_year):
+        forms.add_error(None, 'Please provide both class and session year to search by roll number.')
+    
+    elif class_name and session_year:
+        # Filter by class_name and session_year
+        student = EnrolledStudent.objects.filter(class_name=class_name, session_year=session_year)
+
+        # If roll number is also provided, further filter by roll number
+        if roll:
+            student = student.filter(roll=roll)  # Corrected 'roll_no' to 'roll'
+
     context = {
-        'profile' : user_profile,
+        'profile': user_profile,
         'forms': forms,
         'student': student
     }
